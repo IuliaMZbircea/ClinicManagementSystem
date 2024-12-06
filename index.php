@@ -1,16 +1,10 @@
 <?php
-include('functions.php');
+session_start();
+include('includes/config.php');
 
-// Example to add a new patient
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $cnp = $_POST['cnp'];
-    $address = $_POST['address'];
-    $birth_date = $_POST['birth_date'];
-    $age = $_POST['age'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-
-    addPatient($cnp, $address, $birth_date, $age, $email, $phone);
+if (!isset($_SESSION['doctor_logged_in'])) {
+    header('Location: login.php');
+    exit();
 }
 ?>
 
@@ -18,19 +12,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinic Management</title>
+    <title>Clinic Management System</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-    <h1>Add a New Patient</h1>
-    <form method="post">
-        <input type="text" name="cnp" placeholder="CNP" required>
-        <input type="text" name="address" placeholder="Address" required>
-        <input type="date" name="birth_date" required>
-        <input type="number" name="age" placeholder="Age" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="tel" name="phone" placeholder="Phone" required>
-        <button type="submit">Add Patient</button>
-    </form>
+    <header>
+        <h1>Welcome to Clinic Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="patient.php">Patients</a></li>
+                <li><a href="consultations.php">Consultations</a></li>
+                <li><a href="statistics.php">Statistics</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Dashboard</h2>
+        <p>Welcome, Dr. <?php echo $_SESSION['doctor_name']; ?>!</p>
+    </main>
 </body>
 </html>
